@@ -23,6 +23,7 @@
   "dependencies": {
     "@unovis/ts": "^1.4.4",
     "@unovis/vue": "^1.4.4",
+    "@upstash/redis": "^1.34.0",
     "@vee-validate/zod": "^4.13.2",
     "@vueuse/core": "^11.0.0",
     "intl-parse-accept-language": "^1.0.0",
