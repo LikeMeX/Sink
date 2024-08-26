@@ -1,11 +1,6 @@
-import { createClient } from 'redis'
+import { Redis } from '@upstash/redis/cloudflare'
 
-const redisClient = createClient({
-  password: process.env.NUXT_REDIS_PASSWORD,
-  socket: {
-    host: process.env.NUXT_REDIS_URL,
-    port: Number(process.env.NUXT_REDIS_PORT || 11373),
-  },
-}).on('error', err => console.log('Redis Client Error', err))
-
-export default redisClient
+export const redisClient = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+})

@@ -1,10 +1,10 @@
-import redisClient from './redisClient'
+import { redisClient } from './redisClient'
 import { LinkSchema } from '@/schemas/link'
 
 async function hookCreateLinkInRedis(event: any) {
   try {
     const link = await readValidatedBody(event, LinkSchema.parse)
-    const client = await redisClient.connect()
+    const client = redisClient
 
     const existingLink = await client.get(`link:${link.slug}`)
     if (existingLink) {
@@ -12,10 +12,9 @@ async function hookCreateLinkInRedis(event: any) {
     }
     else {
       await client.set(`link:${link.slug}`, JSON.stringify(link), {
-        EX: 3 * 60 * 60,
+        ex: 3 * 60 * 60,
       })
     }
-    await client.disconnect()
   }
   catch (error) {
     console.error(error)

@@ -64,9 +64,6 @@ export default defineNuxtConfig({
       previewMode: '',
       slugDefaultLength: '6',
     },
-    // redisUrl: '',
-    // redisPassword: '',
-    // redisPort: 11373,
   },
 
   compatibilityDate: '2024-07-08',
