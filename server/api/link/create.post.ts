@@ -1,4 +1,5 @@
 import { LinkSchema } from '@/schemas/link'
+import hookCreateLinkInRedis from '~/customs/hook.create.link'
 
 export default eventHandler(async (event) => {
   const link = await readValidatedBody(event, LinkSchema.parse)
@@ -6,6 +7,7 @@ export default eventHandler(async (event) => {
   const { cloudflare } = event.context
   const { KV } = cloudflare.env
   const existingLink = await KV.get(`link:${link.slug}`)
+  await hookCreateLinkInRedis(event) // custom_hook
   if (existingLink) {
     throw createError({
       status: 409, // Conflict

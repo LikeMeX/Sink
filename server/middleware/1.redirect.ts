@@ -1,6 +1,7 @@
 import type { z } from 'zod'
 import { parsePath, withQuery } from 'ufo'
 import type { LinkSchema } from '@/schemas/link'
+import hookGetLinkInRedis from '~/customs/hook.get.link'
 
 export default eventHandler(async (event) => {
   const { pathname: slug } = parsePath(event.path.slice(1)) // remove leading slash
@@ -23,6 +24,18 @@ export default eventHandler(async (event) => {
         console.error('Failed write access log:', error)
       }
       const target = redirectWithQuery ? withQuery(link.url, getQuery(event)) : link.url
+      return sendRedirect(event, target, +useRuntimeConfig(event).redirectStatusCode)
+    }
+    else {
+      const linkRedis = await hookGetLinkInRedis(slug)
+      event.context.link = linkRedis
+      try {
+        await useAccessLog(event)
+      }
+      catch (error) {
+        console.error('Failed write access log:', error)
+      }
+      const target = redirectWithQuery ? withQuery(linkRedis.url, getQuery(event)) : linkRedis.url
       return sendRedirect(event, target, +useRuntimeConfig(event).redirectStatusCode)
     }
   }
