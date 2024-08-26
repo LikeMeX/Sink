@@ -1,10 +1,11 @@
+import type { H3Event } from 'h3'
 import { redisClient } from './redisClient'
 import { LinkSchema } from '@/schemas/link'
 
-async function hookCreateLinkInRedis(event: any) {
+async function hookCreateLinkInRedis(event: H3Event) {
   try {
     const link = await readValidatedBody(event, LinkSchema.parse)
-    const client = redisClient
+    const client = redisClient(event)
 
     const existingLink = await client.get(`link:${link.slug}`)
     if (existingLink) {

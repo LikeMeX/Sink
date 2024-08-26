@@ -27,7 +27,7 @@ export default eventHandler(async (event) => {
       return sendRedirect(event, target, +useRuntimeConfig(event).redirectStatusCode)
     }
     else {
-      const linkRedis = await hookGetLinkInRedis(slug)
+      const linkRedis = await hookGetLinkInRedis(slug, event)
       event.context.link = linkRedis
       try {
         await useAccessLog(event)

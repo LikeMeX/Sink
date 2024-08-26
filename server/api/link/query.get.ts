@@ -15,7 +15,7 @@ export default eventHandler(async (event) => {
       }
     }
     else {
-      const linkRedis = await hookGetLinkInRedis(slug)
+      const linkRedis = await hookGetLinkInRedis(slug, event)
       if (linkRedis) {
         return {
           ...linkRedis,

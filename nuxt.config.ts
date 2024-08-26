@@ -60,6 +60,8 @@ export default defineNuxtConfig({
     dataset: 'sink',
     aiModel: '@cf/meta/llama-3-8b-instruct',
     aiPrompt: `You are a URL shortening assistant, please shorten the URL provided by the user into a SLUG. The SLUG information must come from the URL itself, do not make any assumptions. A SLUG is human-readable and should not exceed three words and can be validated using regular expressions {slugRegex} . Only the best one is returned, the format must be JSON reference {"slug": "example-slug"}`,
+    redisRestUrl: '',
+    redisRestToken: '',
     public: {
       previewMode: '',
       slugDefaultLength: '6',
