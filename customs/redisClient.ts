@@ -1,12 +1,10 @@
 import { createClient } from 'redis'
 
-const runtimeConfig = useRuntimeConfig()
-
 const redisClient = createClient({
-  password: runtimeConfig.redisPassword,
+  password: process.env.NUXT_REDIS_PASSWORD,
   socket: {
-    host: runtimeConfig.redisUrl,
-    port: runtimeConfig.redisPort,
+    host: process.env.NUXT_REDIS_URL,
+    port: Number(process.env.NUXT_REDIS_PORT || 11373),
   },
 }).on('error', err => console.log('Redis Client Error', err))
 
